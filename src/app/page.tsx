@@ -2,14 +2,27 @@
 
 import { useState } from "react";
 import { Sparkles } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 export default function LandingPage() {
   const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Email submitted:", email);
-    setEmail("");
+    setStatus("loading");
+
+    const { error } = await supabase.from("waitlist").insert({ email });
+
+    if (error) {
+      console.error(error);
+      setStatus("error");
+    } else {
+      setEmail("");
+      setStatus("success");
+    }
   };
 
   return (
@@ -59,8 +72,16 @@ export default function LandingPage() {
               type="submit"
               className="px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800"
             >
-              Join Waitlist
+              {status === "loading" ? "Joining..." : "Join Waitlist"}
             </button>
+            {status === "success" && (
+              <p className="text-green-600 mt-2">Thanks for joining!</p>
+            )}
+            {status === "error" && (
+              <p className="text-red-600 mt-2">
+                Something went wrong. Try again.
+              </p>
+            )}
           </form>
         </div>
       </section>
