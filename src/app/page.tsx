@@ -17,7 +17,7 @@ export default function LandingPage() {
     const { error } = await supabase.from("waitlist").insert({ email });
 
     if (error) {
-      console.error(error);
+      console.error("Supabase insert error:", error);
       setStatus("error");
     } else {
       setEmail("");
