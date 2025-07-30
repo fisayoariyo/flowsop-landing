@@ -1,0 +1,120 @@
+                             FlowSOP
+A simple tool that turns screen recordings into step-by-step how-to guides.
+
+💡 Imagine This:
+You hit record, do a task on your screen (like setting up a new user in your CRM), then hit stop.
+
+FlowSOP takes the video, and gives you a clean document like:
+
+css
+
+1. Go to your CRM dashboard [screenshot]
+2. Click “Add New User” [screenshot]
+3. Enter user details and click Save [screenshot]
+
+All of that happens automatically.
+
+✅ Why This Product Works
+Companies need to train new people fast
+
+Nobody enjoys writing boring SOP documents
+
+Most current tools are either too expensive or manual
+
+AI now makes this easier and faster than ever before
+
+
+
+
+📦 What You’re Building First (MVP)
+Only build these basics first — no bloat.
+
+Core Features:
+Record your screen and voice
+
+AI listens and understands what you did
+
+AI turns that into clear steps + screenshots
+
+Let users copy or download the steps
+
+That’s it for v1.
+
+
+
+
+🧱 Tools You'll Use (Tech Stack)
+Don’t overthink this. Use simple stuff that works.
+
+
+
+Function	Tool to Use
+Website + App	Next.js (React) + Tailwind CSS
+Record screen	MediaRecorder API (in-browser)
+Transcribe voice	OpenAI Whisper API
+Turn into steps	GPT-4 (OpenAI)
+Store data	Supabase or Firebase
+Host it	Vercel (for free or cheap)
+
+
+
+🌐 Step-by-Step What You Do This Week
+🔹 Day 1–2: Build a simple website (Landing Page)
+Put these on the page:
+
+What the product does (plain English)
+
+One fake screenshot (we can mock this)
+
+A form to collect emails ("Join the waitlist")
+
+
+
+→ I can give you the full text and design for this.
+
+
+
+
+🔹 Day 3–5: Talk to potential users
+Places to go:
+
+Reddit (r/smallbusiness, r/startups, r/operations)
+
+LinkedIn (message ops managers)
+
+Twitter (search “SOP” or “operations”)
+
+Ask something like:
+
+“Would you use a tool that turns screen recordings into step-by-step SOPs automatically?”
+
+Collect feedback + emails.
+
+
+
+
+🔹 Day 6–7: Build the MVP (first working version)
+Start with:
+
+Screen recording + audio
+
+Send video to Whisper API → get transcript
+
+Use GPT-4 to split the transcript into steps
+
+Match screenshots to each step
+
+Display a doc in the browser
+
+You don’t need auth, payments, or polish yet.
+
+
+
+
+💸 Business Model (How You'll Make Money)
+Start free → upgrade for power users.
+
+Plan	What They Get	Price
+Free	3 SOPs per month	$0
+Pro	Unlimited, export, no logo	$15/mo
+Team	Shared workspace, versioning	$49+/mo
