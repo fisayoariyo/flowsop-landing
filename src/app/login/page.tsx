@@ -26,19 +26,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
       <form
         onSubmit={handleLogin}
-        className="bg-white p-6 rounded-md shadow-md w-full max-w-sm"
+        className="bg-white p-6 sm:p-8 rounded-md shadow-md w-full max-w-sm"
       >
-        <h1 className="text-xl font-semibold mb-4 text-center">Admin Login</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center text-gray-900">
+          Admin Login
+        </h1>
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full border px-3 py-2 mb-3 rounded"
+          className="w-full border border-gray-300 px-3 py-2 mb-4 rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black"
         />
         <input
           type="password"
@@ -46,12 +48,12 @@ export default function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full border px-3 py-2 mb-3 rounded"
+          className="w-full border border-gray-300 px-3 py-2 mb-4 rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black"
         />
-        {error && <p className="text-red-600 text-sm mb-3">{error}</p>}
+        {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
         <button
           type="submit"
-          className="w-full bg-black text-white py-2 rounded hover:bg-gray-800"
+          className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition-colors"
         >
           Log In
         </button>
