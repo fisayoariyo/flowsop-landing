@@ -7,7 +7,8 @@ import { supabase } from "@/lib/supabase";
 type WaitlistEntry = {
   id: number;
   email: string;
-  inserted_at: string;
+  created_at?: string; // fallback if 'inserted_at' doesn't exist
+  inserted_at?: string;
 };
 
 export default function WaitlistDashboard() {
@@ -19,12 +20,12 @@ export default function WaitlistDashboard() {
       const { data, error } = await supabase
         .from("waitlist")
         .select("*")
-        .order("inserted_at", { ascending: false });
+        .order("inserted_at", { ascending: false }); // Change to 'created_at' if needed
 
       if (error) {
-        console.error("Error fetching waitlist:", error);
+        console.error("Error fetching waitlist:", error.message || error);
       } else {
-        setEntries(data);
+        setEntries(data || []);
       }
 
       setLoading(false);
@@ -57,7 +58,9 @@ export default function WaitlistDashboard() {
                   <td className="border px-4 py-2">{entry.id}</td>
                   <td className="border px-4 py-2">{entry.email}</td>
                   <td className="border px-4 py-2">
-                    {new Date(entry.inserted_at).toLocaleString()}
+                    {new Date(
+                      entry.inserted_at || entry.created_at || ""
+                    ).toLocaleString()}
                   </td>
                 </tr>
               ))}
