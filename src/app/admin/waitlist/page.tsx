@@ -1,4 +1,3 @@
-// src/app/admin/waitlist/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -7,8 +6,7 @@ import { supabase } from "@/lib/supabase";
 type WaitlistEntry = {
   id: number;
   email: string;
-  created_at?: string; // fallback if 'inserted_at' doesn't exist
-  inserted_at?: string;
+  created_at?: string;
 };
 
 export default function WaitlistDashboard() {
@@ -20,7 +18,7 @@ export default function WaitlistDashboard() {
       const { data, error } = await supabase
         .from("waitlist")
         .select("*")
-        .order("inserted_at", { ascending: false }); // Change to 'created_at' if needed
+        .order("created_at", { ascending: false }); // fixed from inserted_at
 
       if (error) {
         console.error("Error fetching waitlist:", error.message || error);
@@ -58,9 +56,9 @@ export default function WaitlistDashboard() {
                   <td className="border px-4 py-2">{entry.id}</td>
                   <td className="border px-4 py-2">{entry.email}</td>
                   <td className="border px-4 py-2">
-                    {new Date(
-                      entry.inserted_at || entry.created_at || ""
-                    ).toLocaleString()}
+                    {entry.created_at
+                      ? new Date(entry.created_at).toLocaleString()
+                      : "N/A"}
                   </td>
                 </tr>
               ))}
