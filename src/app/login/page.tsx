@@ -9,14 +9,19 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
+
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+
+    setLoading(false);
 
     if (error) {
       setError(error.message);
@@ -26,36 +31,51 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-black px-4 sm:px-6 lg:px-8 py-12">
       <form
         onSubmit={handleLogin}
-        className="bg-white p-6 sm:p-8 rounded-md shadow-md w-full max-w-sm"
+        className="bg-gray-900 p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-sm"
       >
-        <h1 className="text-2xl font-bold mb-6 text-center text-gray-900">
-          Admin Login
-        </h1>
+        <div className="mb-6 text-center">
+          <h1 className="text-2xl font-bold text-white">Admin Login</h1>
+        </div>
+
+        <label htmlFor="email" className="sr-only">
+          Email
+        </label>
         <input
+          id="email"
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full border border-gray-300 px-3 py-2 mb-4 rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black"
+          aria-label="Email"
+          className="w-full bg-gray-800 text-white border border-gray-700 px-3 py-2 mb-4 rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
         />
+
+        <label htmlFor="password" className="sr-only">
+          Password
+        </label>
         <input
+          id="password"
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full border border-gray-300 px-3 py-2 mb-4 rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black"
+          aria-label="Password"
+          className="w-full bg-gray-800 text-white border border-gray-700 px-3 py-2 mb-4 rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
         />
-        {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
+
+        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+
         <button
           type="submit"
-          className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition-colors"
+          disabled={loading}
+          className="w-full bg-white text-black font-semibold py-2 rounded hover:bg-gray-200 transition-colors"
         >
-          Log In
+          {loading ? "Logging in..." : "Log In"}
         </button>
       </form>
     </div>
