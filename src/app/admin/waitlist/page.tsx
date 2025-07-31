@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
 
 type WaitlistEntry = {
   id: number;
@@ -16,23 +16,21 @@ export default function WaitlistDashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchWaitlist = async () => {
+    const checkAuthAndFetch = async () => {
       const {
         data: { user },
-        error: userError,
       } = await supabase.auth.getUser();
 
-      if (userError || !user) {
-        console.warn("Not logged in or failed to get user");
+      if (!user) {
         router.push("/login");
         return;
       }
 
-      if (user.email !== "ariyoadefisayomi@gmail.com") {
-        console.warn("Unauthorized user:", user.email);
-        router.push("/login");
-        return;
-      }
+      // OPTIONAL: Check if user is admin by email or role here
+      // if (user.email !== "your-admin-email@example.com") {
+      //   router.push("/login");
+      //   return;
+      // }
 
       const { data, error } = await supabase
         .from("waitlist")
@@ -48,7 +46,7 @@ export default function WaitlistDashboard() {
       setLoading(false);
     };
 
-    fetchWaitlist();
+    checkAuthAndFetch();
   }, [router]);
 
   return (
