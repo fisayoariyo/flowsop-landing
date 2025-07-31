@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
 type WaitlistEntry = {
@@ -12,13 +13,31 @@ type WaitlistEntry = {
 export default function WaitlistDashboard() {
   const [entries, setEntries] = useState<WaitlistEntry[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchWaitlist = async () => {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError || !user) {
+        console.warn("Not logged in or failed to get user");
+        router.push("/login");
+        return;
+      }
+
+      if (user.email !== "ariyoadefisayomi@gmail.com") {
+        console.warn("Unauthorized user:", user.email);
+        router.push("/login");
+        return;
+      }
+
       const { data, error } = await supabase
         .from("waitlist")
         .select("*")
-        .order("created_at", { ascending: false }); // fixed from inserted_at
+        .order("created_at", { ascending: false });
 
       if (error) {
         console.error("Error fetching waitlist:", error.message || error);
@@ -30,7 +49,7 @@ export default function WaitlistDashboard() {
     };
 
     fetchWaitlist();
-  }, []);
+  }, [router]);
 
   return (
     <div className="min-h-screen bg-white text-gray-800 p-8">
